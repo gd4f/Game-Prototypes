@@ -1,2 +1,4 @@
-# testDev1
-TRY TO COLAB
+# Game-Prototypes
+
+** Compilation of unity projects to test game functionality
+** Use for game testing
