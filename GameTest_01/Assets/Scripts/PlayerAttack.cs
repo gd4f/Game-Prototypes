@@ -8,6 +8,8 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private Transform firepoint;
     [SerializeField] private GameObject fireballs;
     [SerializeField] private GameObject hook;
+    [SerializeField] private GameObject Grenade;
+
     private Animator anim;
     private PlayerMovement playerMovement;
     private float cooldownTimer = Mathf.Infinity;
@@ -26,6 +28,7 @@ public class PlayerAttack : MonoBehaviour
         }
         cooldownTimer += Time.deltaTime;
         ThrowHook();
+        ThrowGrenade();
     }
 
     private void Attack(){
@@ -38,7 +41,7 @@ public class PlayerAttack : MonoBehaviour
     }
 
     private int FindFireball(){
-        Debug.Log("child  count: " +fireballs.transform.childCount);
+
         for (int i = 0; i < fireballs.transform.childCount; i++){
 
             if (!fireballs.transform.GetChild(i).gameObject.activeInHierarchy)
@@ -49,10 +52,16 @@ public class PlayerAttack : MonoBehaviour
 
     private void ThrowHook(){
         if(Input.GetKeyDown(KeyCode.E)){
-            hook.SetActive(true);
-            isThrowHook = true;
+            hook.transform.position = firepoint.position;
+            Debug.Log("localscale: " + transform.localScale.x);
+            hook.transform.GetComponent<Hooked>().SetDirection(Mathf.Sign(transform.localScale.x), transform);
         }
-        if(isThrowHook == true)
-            hook.transform.Translate(15*Time.deltaTime * Mathf.Sign(transform.localScale.x), 0, 0);
+    }
+
+    private void ThrowGrenade(){
+        if(Input.GetKeyDown(KeyCode.G)){
+            Grenade.transform.position = firepoint.position;
+            Grenade.transform.GetComponent<BombScript>().SetDirection(Mathf.Sign(transform.localScale.x), transform);
+        }
     }
 }

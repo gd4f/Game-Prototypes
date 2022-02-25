@@ -32,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update(){
         horizontalInput = Input.GetAxis("Horizontal");
-        body.velocity = new Vector2(horizontalInput * speed,body.velocity.y);
+        //body.velocity = new Vector2(horizontalInput * speed,body.velocity.y);
     
         //Flip player when moving sideways
         if (horizontalInput > 0.01f){
@@ -42,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
             transform.localScale = new Vector2(-1, 1);
            
         }
+
          Blink(); 
 
        
@@ -59,29 +60,27 @@ public class PlayerMovement : MonoBehaviour
                 body.gravityScale = 0;  
                 body.velocity = Vector2.zero;
             }else{
+
                 Gliding();
-                
-                
             }
             
             if(Input.GetKey(KeyCode.Space))
                 Jump();
         }else
             wallJumpCooldown += Time.deltaTime;
-
-        
-       
     }
 
     private void Gliding(){
         //gliding
-        
         if(Input.GetKey(KeyCode.LeftShift)){
             body.gravityScale = glidePower;
         }else   
             body.gravityScale = 5;
+            
     }
     private void Jump(){
+
+        
         if(isGrounded()){
             body.velocity = new Vector2(body.velocity.x + 10, jumpPower); 
             anim.SetTrigger("jump");
@@ -91,7 +90,6 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void Blink(){
-        Debug.Log(horizontalInput);
         if(Input.GetKeyDown(KeyCode.Q)){
             _particleSystem.transform.position = body.position;
             _particleSystem.Play();
